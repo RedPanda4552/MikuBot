@@ -20,7 +20,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>io.github.redpanda4552.HifumiBot.HifumiBot</mainClass>
+              <mainClass>io.github.redpanda4552.MikuBot.MikuBot</mainClass>
             </manifest>
           </archive>
         </configuration>
