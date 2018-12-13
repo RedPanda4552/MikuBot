@@ -41,19 +41,7 @@ public class MikuBot {
         }
         
         discordToken = args[0];
-        
-        while (true) {
-            if (mikuBot == null) {
-                System.out.println("No self instance, creating one");
-                mikuBot = new MikuBot();
-            }
-            
-            try {
-                Thread.sleep(1000 * 2);
-            } catch (InterruptedException e) {
-                System.out.println("MikuBot Interrupt!");
-            }
-        }
+        mikuBot = new MikuBot();
     }
     
     public static MikuBot getSelf() {
