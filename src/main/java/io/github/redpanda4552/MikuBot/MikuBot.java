@@ -73,7 +73,7 @@ public class MikuBot {
                     .setToken(discordToken)
                     .setAutoReconnect(true)
                     .addEventListener(new EventListener())
-                    .buildBlocking();
+                    .build().awaitReady();
         } catch (LoginException | IllegalArgumentException | InterruptedException e) {
             e.printStackTrace();
         }
