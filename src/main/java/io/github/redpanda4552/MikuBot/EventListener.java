@@ -43,8 +43,8 @@ public class EventListener extends ListenerAdapter {
         JDA jda = MikuBot.getSelf().getJDA();
         
         if (event.getChannelType() == ChannelType.PRIVATE && !event.getAuthor().getId().equals(jda.getSelfUser().getId())) {
-            if (jda.asClient().getFriend(event.getAuthor()) == null) {
-                MessageBuilder mb = new MessageBuilder("**Sorry, but I do not respond to unsolicited DMs.**\n\n");
+            if (jda.asClient().getFriend(event.getAuthor()) == null && !event.getAuthor().isBot()) {
+                MessageBuilder mb = new MessageBuilder("**Sorry, but I do not respond to unsolicited DMs from non-friends.**\n\n");
                 List<Guild> mutualGuilds = event.getAuthor().getMutualGuilds();
                 
                 if (mutualGuilds.size() == 0) {
