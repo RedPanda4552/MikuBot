@@ -34,29 +34,38 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 public class EventListener extends ListenerAdapter {
 
+    private JDA jda;
+    
     public EventListener() {
-        
+        jda = MikuBot.getSelf().getJDA();
     }
     
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-        JDA jda = MikuBot.getSelf().getJDA();
+        // Stop conditions
+        if (event.getChannelType() != ChannelType.PRIVATE)
+            return;
         
-        if (event.getChannelType() == ChannelType.PRIVATE && !event.getAuthor().getId().equals(jda.getSelfUser().getId())) {
-            if (jda.asClient().getFriend(event.getAuthor()) == null && !event.getAuthor().isBot()) {
-                MessageBuilder mb = new MessageBuilder("**Sorry, but I do not respond to unsolicited DMs from non-friends.**\n\n");
-                List<Guild> mutualGuilds = event.getAuthor().getMutualGuilds();
-                
-                if (mutualGuilds.size() == 0) {
-                    mb.append("I don't see any mutual servers between us, but maybe if I recognize you I will add you as a friend and respond.");
-                } else if (mutualGuilds.size() == 1) {
-                    mb.append("You probably found me on the " + mutualGuilds.get(0).getName() + " server, please try to get ahold of me there instead.");
-                } else {
-                    mb.append("It looks like we have multiple mutual servers, please find me on the appropriate one and get ahold of me there instead.");
-                }
-                
-                event.getChannel().sendMessage(mb.build()).complete();
-            }
+        if (event.getAuthor().getId().equals(jda.getSelfUser().getId()))
+            return;
+        
+        if (event.getAuthor().isBot())
+            return;
+        
+        if (jda.asClient().getFriend(event.getAuthor()) != null)
+            return;
+    
+        MessageBuilder mb = new MessageBuilder("**Sorry, but I do not respond to unsolicited DMs from non-friends.**\n\n");
+        List<Guild> mutualGuilds = event.getAuthor().getMutualGuilds();
+        
+        if (mutualGuilds.size() == 0) {
+            mb.append("I don't see any mutual servers between us, but maybe if I recognize you I will add you as a friend and respond.");
+        } else if (mutualGuilds.size() == 1) {
+            mb.append("You probably found me on the " + mutualGuilds.get(0).getName() + " server, please try to get ahold of me there instead.");
+        } else {
+            mb.append("It looks like we have multiple mutual servers, please find me on the appropriate one and get ahold of me there instead.");
         }
+        
+        event.getChannel().sendMessage(mb.build()).complete();
     }
 }
