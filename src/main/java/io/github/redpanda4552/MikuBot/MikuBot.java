@@ -42,7 +42,7 @@ public class MikuBot {
         }
         
         discordToken = args[0];
-        mikuBot = new MikuBot();
+        new MikuBot();
     }
     
     public static MikuBot getSelf() {
@@ -52,6 +52,8 @@ public class MikuBot {
     private JDA jda;
     
     public MikuBot() {
+        mikuBot = this;
+        
         if (discordToken == null || discordToken.isEmpty()) {
             System.out.println("Attempted to start with a null or empty Discord token!");
             return;
