@@ -34,10 +34,8 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 public class EventListener extends ListenerAdapter {
 
-    private JDA jda;
-    
     public EventListener() {
-        jda = MikuBot.getSelf().getJDA();
+        
     }
     
     @Override
@@ -46,15 +44,15 @@ public class EventListener extends ListenerAdapter {
         if (event.getChannelType() != ChannelType.PRIVATE)
             return;
         
-        if (event.getAuthor().getId().equals(jda.getSelfUser().getId()))
+        if (event.getAuthor().getId().equals(MikuBot.getSelf().getJDA().getSelfUser().getId()))
             return;
         
         if (event.getAuthor().isBot())
             return;
         
-        if (jda.asClient().getFriend(event.getAuthor()) != null)
+        if (MikuBot.getSelf().getJDA().asClient().getFriend(event.getAuthor()) != null)
             return;
-    
+        
         MessageBuilder mb = new MessageBuilder("**Sorry, but I do not respond to unsolicited DMs from non-friends.**\n\n");
         List<Guild> mutualGuilds = event.getAuthor().getMutualGuilds();
         
